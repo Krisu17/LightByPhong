@@ -9,7 +9,6 @@ from PyQt5.QtWidgets import *
 from Ball import *
 
 
-
 class Widget(QWidget):
     def __init__(self):
         self.screen_size = (400, 400)
@@ -65,6 +64,7 @@ class Widget(QWidget):
                     painter.setPen(
                         QPen(QColor.fromHsv(hue, saturation, velocity),  1, Qt.SolidLine))
                     painter.drawPoint(x, y)
+
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Up:
             self.LightObject.moveLightToUp()
@@ -78,6 +78,12 @@ class Widget(QWidget):
         if event.key() == Qt.Key_Down:
             self.LightObject.moveLightToDown()
             self.update()
+        if event.key() == Qt.Key_PageUp:
+            self.LightObject.moveLightInside()
+            self.update()
+        if event.key() == Qt.Key_PageDown:
+            self.LightObject.moveLightOutside()
+            self.update()
         if event.key() == Qt.Key_1:
             self.ballObject.setMaterialToMetal()
             self.update()
@@ -90,6 +96,8 @@ class Widget(QWidget):
         if event.key() == Qt.Key_4:
             self.ballObject.setMaterialToWood()
             self.update()
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = Widget()
