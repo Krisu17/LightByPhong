@@ -12,14 +12,15 @@ from Ball import *
 
 class Widget(QWidget):
     def __init__(self):
-        self.screen_size = (800, 800)
-        self.ballObject = Ball(240, 240, 0, 200)  # x, y, z, r
+        self.screen_size = (400, 400)
+        self.ballObject = Ball(200, 200, 0, 100)  # x, y, z, r
+        self.ballObject.setMaterialToPlastic()
         self.LightObject = Light(440, 440, 400, 200)  # x, y, z, power
         super().__init__()
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        ballBrighness = 79
+        ballBrighness = self.ballObject.getBallBrighness()
 
         for x in range(self.screen_size[0]):
             for y in range(self.screen_size[1]):
@@ -48,17 +49,23 @@ class Widget(QWidget):
                     Ia = 0
                     Ip = self.LightObject.power
                     Ka = 0.1
-                    Ks = 0.25
-                    Kd = 0.75
+                    Ks = self.ballObject.getKs()
+                    Kd = self.ballObject.getKd()
                     fatt = 0.8
-                    n = 10
+                    n = self.ballObject.getN()
+                    hue = self.ballObject.getHue()
+                    saturation = self.ballObject.getSaturation()
+
                     final = (Ia * Ka) + (fatt * Ip*Kd *
                                          np.dot(NormalNormalized, LightNormalized)) + \
                         (fatt*Ip*Ks*math.cos(angle)**n)
-                    if ballBrighness - final < 0:
-                        final = ballBrighness
+                    velocity = ballBrighness - final
+                    if velocity < 0:
+                        velocity = 0
+                    if velocity > 255:
+                        velocity = 255
                     painter.setPen(
-                        QPen(QColor.fromHsv(342, 71, ballBrighness - final),  1, Qt.SolidLine))
+                        QPen(QColor.fromHsv(hue, saturation, velocity),  1, Qt.SolidLine))
                     painter.drawPoint(x, y)
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Up:
@@ -73,9 +80,21 @@ class Widget(QWidget):
         if event.key() == Qt.Key_Down:
             self.LightObject.moveLightToDown()
             self.update()
+        if event.key() == Qt.Key_1:
+            self.ballObject.setMaterialToMetal()
+            self.update()
+        if event.key() == Qt.Key_2:
+            self.ballObject.setMaterialToWool()
+            self.update()
+        if event.key() == Qt.Key_3:
+            self.ballObject.setMaterialToPlastic()
+            self.update()
+        if event.key() == Qt.Key_4:
+            self.ballObject.setMaterialToWood()
+            self.update()
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = Widget()
-    ex.resize(800, 800)
+    ex.resize(400, 400)
     ex.show()
     sys.exit(app.exec_())
