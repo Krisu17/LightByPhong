@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import *
 from Ball import *
 
 
+
 class Widget(QWidget):
     def __init__(self):
         self.screen_size = (800, 800)
@@ -18,6 +19,7 @@ class Widget(QWidget):
 
     def paintEvent(self, event):
         painter = QPainter(self)
+        ballBrighness = 79
 
         for x in range(self.screen_size[0]):
             for y in range(self.screen_size[1]):
@@ -53,25 +55,24 @@ class Widget(QWidget):
                     final = (Ia * Ka) + (fatt * Ip*Kd *
                                          np.dot(NormalNormalized, LightNormalized)) + \
                         (fatt*Ip*Ks*math.cos(angle)**n)
-
+                    if ballBrighness - final < 0:
+                        final = ballBrighness
                     painter.setPen(
-                        QPen(QColor.fromHsv(342, 71, 79 - final),  1, Qt.SolidLine))
+                        QPen(QColor.fromHsv(342, 71, ballBrighness - final),  1, Qt.SolidLine))
                     painter.drawPoint(x, y)
-
-                    # def keyPressEvent(self, event):
-                    #     ROTATION_STEP = numpy.radians(0.8)
-                    #     if event.key() == Qt.Key_PageUp:
-                    #         self.transformAllBy(0, -12, 0)
-                    #     if event.key() == Qt.Key_PageDown:
-                    #         self.transformAllBy(0, 12, 0)
-                    #     if event.key() == Qt.Key_Left:
-                    #         self.transformAllBy(12, 0, 0)
-                    #     if event.key() == Qt.Key_Right:
-                    #         self.transformAllBy(-12, 0, 0)
-                    #     if event.key() == Qt.Key_Up:
-                    #         self.transformAllBy(0, 0, -12)
-                    #     if event.key() == Qt.Key_Down:
-                    #         self.transformAllBy(0, 0, 12)
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_Up:
+            self.LightObject.moveLightToUp()
+            self.update()
+        if event.key() == Qt.Key_Left:
+            self.LightObject.moveLightToLeft()
+            self.update()
+        if event.key() == Qt.Key_Right:
+            self.LightObject.moveLightToRight()
+            self.update()
+        if event.key() == Qt.Key_Down:
+            self.LightObject.moveLightToDown()
+            self.update()
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = Widget()
