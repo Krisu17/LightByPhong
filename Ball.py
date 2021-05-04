@@ -7,6 +7,7 @@ class Ball:
         self.y = y
         self.z = z
         self.r = r
+        self.rSq = r*r
 
     def setMaterialToMetal(self) -> None:
         self.Ks = 0.50
@@ -20,8 +21,8 @@ class Ball:
         self.Ks = 0.25
         self.Kd = 0.75
         self.n = 10
-        self.hue = 342
-        self.saturation = 71
+        self.hue = 297
+        self.saturation = 86
         self.ballBrighness = 79
     
     def setMaterialToPlastic(self) -> None:
@@ -42,7 +43,7 @@ class Ball:
     
 
     def getZ(self, x, y,) -> float:
-        return math.sqrt(self.r**2 - (x - self.x)**2-(y-self.y)**2) + self.z
+        return math.sqrt(self.rSq - (x - self.x)**2-(y-self.y)**2) + self.z
 
     def getKs(self) -> float:
         return self.Ks
@@ -63,4 +64,4 @@ class Ball:
         return self.ballBrighness
 
     def isInBall(self, x, y) -> bool:
-        return (x-self.x)**2 + (y-self.y)**2 <= self.r**2
+        return (x-self.x)**2 + (y-self.y)**2 <= self.rSq

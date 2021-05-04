@@ -21,6 +21,16 @@ class Widget(QWidget):
     def paintEvent(self, event):
         painter = QPainter(self)
         ballBrighness = self.ballObject.getBallBrighness()
+        ObservatorVector = [0, 0, 1]
+        Ia = 0.4
+        Ip = self.LightObject.power
+        Ka = 0.2
+        Ks = self.ballObject.getKs()
+        Kd = self.ballObject.getKd()
+        fatt = 0.8
+        n = self.ballObject.getN()
+        hue = self.ballObject.getHue()
+        saturation = self.ballObject.getSaturation()
 
         for x in range(self.screen_size[0]):
             for y in range(self.screen_size[1]):
@@ -41,20 +51,8 @@ class Widget(QWidget):
 
                     LightNormalized = LightVector/np.linalg.norm(LightVector)
 
-                    ObservatorVector = [0, 0, 1]
-
                     dot_product = np.dot(ObservatorVector, LightNormalized)
                     angle = np.arccos(dot_product)
-
-                    Ia = 0
-                    Ip = self.LightObject.power
-                    Ka = 0.1
-                    Ks = self.ballObject.getKs()
-                    Kd = self.ballObject.getKd()
-                    fatt = 0.8
-                    n = self.ballObject.getN()
-                    hue = self.ballObject.getHue()
-                    saturation = self.ballObject.getSaturation()
 
                     final = (Ia * Ka) + (fatt * Ip*Kd *
                                          np.dot(NormalNormalized, LightNormalized)) + \
