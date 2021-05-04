@@ -55,7 +55,7 @@ class Widget(QWidget):
                         (fatt*Ip*Ks*math.cos(angle)**n)
 
                     painter.setPen(
-                        QPen(QColor.fromHsv(342, 71, 79 - final),  1, Qt.SolidLine))
+                        QPen(QColor.fromHsv(342, 71, 79 + final),  1, Qt.SolidLine))
                     painter.drawPoint(x, y)
 
                     # def keyPressEvent(self, event):
