@@ -62,7 +62,7 @@ class Widget(QWidget):
                     if velocity > 255:
                         velocity = 255
                     painter.setPen(
-                        QPen(QColor.fromHsv(hue, saturation, velocity),  1, Qt.SolidLine))
+                        QPen(QColor.fromHsv(342, 71, 79 + final),  1, Qt.SolidLine))
                     painter.drawPoint(x, y)
 
     def keyPressEvent(self, event):
