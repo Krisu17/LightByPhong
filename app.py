@@ -14,14 +14,14 @@ class Widget(QWidget):
         self.screen_size = (400, 400)
         self.ballObject = Ball(200, 200, 0, 100)  # x, y, z, r
         self.ballObject.setMaterialToMetal()
-        self.LightObject = Light(440, 440, 400, 100)  # x, y, z, power
+        self.LightObject = Light(440, 440, 400, 150)  # x, y, z, power
         super().__init__()
 
     def paintEvent(self, event):
         painter = QPainter(self)
         ballBrighness = self.ballObject.getBallBrighness()
         ObservatorVector = [0, 0, 1]
-        Ia = 0.4
+        Ia = 60
         Ip = self.LightObject.power
         Ka = 0.4
         Ks = self.ballObject.getKs()
