@@ -38,7 +38,7 @@ class Widget(QWidget):
                     painter.drawPoint(x, y)
                 else:
                     z = self.ballObject.getZ(x, y)
-
+                    # fatt = math.sqrt(math.pow((x + self.LightObject.getX()), 2) + math.pow((y + self.LightObject.getY()), 2) + math.pow((z + self.LightObject.getZ()), 2))/3
                     NormalVector = np.subtract([x, y, z], [
                         self.ballObject.x, self.ballObject.y, self.ballObject.z])
 
