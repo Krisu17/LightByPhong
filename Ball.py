@@ -9,10 +9,15 @@ class Ball:
         self.r = r
         self.rSq = r*r
 
+        #debugg
+        self.nStep = 20
+        self.ksStep = 0.1
+        self.kdStep = 0.1
+
     def setMaterialToMetal(self) -> None:
-        self.Ks = 0.50
-        self.Kd = 0.95
-        self.n = 60
+        self.Ks = 0.15
+        self.Kd = 0.85
+        self.n = 250
         self.hue = 271
         self.saturation = 24
         self.ballBrighness = 80
@@ -65,3 +70,23 @@ class Ball:
 
     def isInBall(self, x, y) -> bool:
         return (x-self.x)**2 + (y-self.y)**2 <= self.rSq
+
+
+    #for debbuging
+    def increaseN(self) -> None:
+        self.n += self.nStep
+
+    def decreaseN(self) -> None:
+        self.n -= self.nStep
+
+    def increaseKs(self) -> None:
+        self.Ks += self.ksStep
+
+    def decreaseKs(self) -> None:
+        self.Ks += self.ksStep
+
+    def increaseKd(self) -> None:
+        self.Kd += self.kdStep
+
+    def decreaseKd(self) -> None:
+        self.Kd -= self.kdStep
