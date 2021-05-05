@@ -27,3 +27,12 @@ class Light:
 
     def moveLightOutside(self) -> None:
         self.z += self.step
+
+    def getX(self):
+        return self.x
+
+    def getY(self):
+        return self.y
+    
+    def getZ(self):
+        return self.z

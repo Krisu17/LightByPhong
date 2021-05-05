@@ -15,8 +15,8 @@ class Ball:
         self.kdStep = 0.1
 
     def setMaterialToMetal(self) -> None:
-        self.Ks = 0.15
-        self.Kd = 0.85
+        self.Ks = 0.25
+        self.Kd = 0.75
         self.n = 250
         self.hue = 271
         self.saturation = 24
