@@ -13,8 +13,8 @@ class Widget(QWidget):
     def __init__(self):
         self.screen_size = (400, 400)
         self.ballObject = Ball(200, 200, 0, 100)  # x, y, z, r
-        self.ballObject.setMaterialToPlastic()
-        self.LightObject = Light(440, 440, 400, 200)  # x, y, z, power
+        self.ballObject.setMaterialToMetal()
+        self.LightObject = Light(440, 440, 400, 100)  # x, y, z, power
         super().__init__()
 
     def paintEvent(self, event):
@@ -23,7 +23,7 @@ class Widget(QWidget):
         ObservatorVector = [0, 0, 1]
         Ia = 0.4
         Ip = self.LightObject.power
-        Ka = 0.2
+        Ka = 0.4
         Ks = self.ballObject.getKs()
         Kd = self.ballObject.getKd()
         fatt = 0.8
@@ -56,13 +56,14 @@ class Widget(QWidget):
                     final = (Ia * Ka) + (fatt * Ip*Kd *
                                          np.dot(NormalNormalized, LightNormalized)) + \
                         (fatt*Ip*Ks*math.cos(angle)**n)
+                    final = final * 255 / 100
                     velocity = ballBrighness - final
                     if velocity < 0:
                         velocity = 0
                     if velocity > 255:
                         velocity = 255
                     painter.setPen(
-                        QPen(QColor.fromHsv(342, 71, 79 + final),  1, Qt.SolidLine))
+                        QPen(QColor.fromHsl(hue, saturation, velocity),  1, Qt.SolidLine))
                     painter.drawPoint(x, y)
 
     def keyPressEvent(self, event):
@@ -95,6 +96,32 @@ class Widget(QWidget):
             self.update()
         if event.key() == Qt.Key_4:
             self.ballObject.setMaterialToWood()
+            self.update()
+
+        # for debbuging
+        if event.key() == Qt.Key_I:
+            self.ballObject.increaseN()
+            print("N = ", self.ballObject.getN())
+            self.update()
+        if event.key() == Qt.Key_J:
+            self.ballObject.decreaseN()
+            print("N = ", self.ballObject.getN())
+            self.update()
+        if event.key() == Qt.Key_P:
+            self.ballObject.increaseKs()
+            print("Ks = ", self.ballObject.getKs())
+            self.update()
+        if event.key() == Qt.Key_L:
+            self.ballObject.decreaseKs()
+            print("Ks = ", self.ballObject.getKs())
+            self.update()
+        if event.key() == Qt.Key_O:
+            self.ballObject.increaseKd()
+            print("Kd = ", self.ballObject.getKd())
+            self.update()
+        if event.key() == Qt.Key_K:
+            self.ballObject.decreaseKd()
+            print("Kd = ", self.ballObject.getKd())
             self.update()
 
 
