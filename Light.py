@@ -22,5 +22,8 @@ class Light:
     def moveLightToDown(self) -> None:
         self.y += self.step
 
+    def moveLightInside(self) -> None:
+        self.z -= self.step
 
-    
+    def moveLightOutside(self) -> None:
+        self.z += self.step
