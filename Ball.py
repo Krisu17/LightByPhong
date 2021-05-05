@@ -9,8 +9,8 @@ class Ball:
         self.r = r
         self.rSq = r*r
 
-        #debugg
-        self.nStep = 20
+        # debugg
+        self.nStep = 2
         self.ksStep = 0.1
         self.kdStep = 0.1
 
@@ -21,7 +21,7 @@ class Ball:
         self.hue = 271
         self.saturation = 24
         self.ballBrighness = 80
-    
+
     def setMaterialToWool(self) -> None:
         self.Ks = 0.25
         self.Kd = 0.75
@@ -29,7 +29,7 @@ class Ball:
         self.hue = 297
         self.saturation = 86
         self.ballBrighness = 79
-    
+
     def setMaterialToPlastic(self) -> None:
         self.Ks = 0.15
         self.Kd = 0.90
@@ -37,7 +37,7 @@ class Ball:
         self.hue = 112
         self.saturation = 100
         self.ballBrighness = 94
-    
+
     def setMaterialToWood(self) -> None:
         self.Ks = 0.91
         self.Kd = 0.80
@@ -45,7 +45,6 @@ class Ball:
         self.hue = 20
         self.saturation = 52
         self.ballBrighness = 60
-    
 
     def getZ(self, x, y,) -> float:
         return math.sqrt(self.rSq - (x - self.x)**2-(y-self.y)**2) + self.z
@@ -64,15 +63,15 @@ class Ball:
 
     def getSaturation(self) -> int:
         return self.saturation
-    
+
     def getBallBrighness(self) -> int:
         return self.ballBrighness
 
     def isInBall(self, x, y) -> bool:
         return (x-self.x)**2 + (y-self.y)**2 <= self.rSq
 
+    # for debbuging
 
-    #for debbuging
     def increaseN(self) -> None:
         self.n += self.nStep
 
@@ -83,7 +82,7 @@ class Ball:
         self.Ks += self.ksStep
 
     def decreaseKs(self) -> None:
-        self.Ks += self.ksStep
+        self.Ks -= self.ksStep
 
     def increaseKd(self) -> None:
         self.Kd += self.kdStep

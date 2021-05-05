@@ -98,13 +98,12 @@ class Widget(QWidget):
             self.ballObject.setMaterialToWood()
             self.update()
 
-
-        #for debbuging
-        if event.key() == Qt.Key_PageUp:
+        # for debbuging
+        if event.key() == Qt.Key_I:
             self.ballObject.increaseN()
             print("N = ", self.ballObject.getN())
-            self.paintEvent(event)()
-        if event.key() == Qt.Key_PageDown:
+            self.update()
+        if event.key() == Qt.Key_J:
             self.ballObject.decreaseN()
             print("N = ", self.ballObject.getN())
             self.update()
@@ -124,7 +123,7 @@ class Widget(QWidget):
             self.ballObject.decreaseKd()
             print("Kd = ", self.ballObject.getKd())
             self.update()
-        
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
