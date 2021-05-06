@@ -14,9 +14,9 @@ class Widget(QWidget):
         self.screen_size = (200, 200)
         self.ballObject = Ball(100, 100, 0, 50)  # x, y, z, r
         self.ballObject.setMaterialToMetal()
-        self.LightObject = Light(440, 440, 400, 150)  # x, y, z, power
+        self.LightObject = Light(120, 120, 400, 150)  # x, y, z, power
         self.Ia = 60
-        self.Ka = 0.4
+        self.Ka = 0
         self.fatt = 0.8
 
         super().__init__()
@@ -65,8 +65,8 @@ class Widget(QWidget):
             self.labelFatt.setGeometry(110, 190, 50, 10)
 
     def changeN(self, value):
-        self.ballObject.n = value
-        self.labelN.setText("N=" + str(self.ballObject.n))
+        self.ballObject.n = value * 100
+        self.labelN.setText("N=" + str(self.ballObject.n*100))
         self.update()
 
     def changeKs(self, value):
@@ -93,7 +93,7 @@ class Widget(QWidget):
         self.LightObject.power = value + 100
         self.labelIp.setText("Ip=" + str(self.LightObject.power))
         self.update()
-    
+
     def changeFatt(self, value):
         self.fatt = value/100
         self.labelFatt.setText("fatt=" + str(self.fatt))
@@ -102,7 +102,7 @@ class Widget(QWidget):
     def paintEvent(self, event):
         painter = QPainter(self)
         ballBrighness = self.ballObject.getBallBrighness()
-        ObservatorVector = [0, 0, 1]
+        ObservatorVector = [0, 0, -1]
         Ia = self.Ia
         Ip = self.LightObject.power
         Ka = self.Ka
@@ -121,26 +121,26 @@ class Widget(QWidget):
                     pass
                 else:
                     z = self.ballObject.getZ(x, y)
-                    # fatt = math.sqrt(math.pow((x + self.LightObject.getX()), 2) + math.pow((y + self.LightObject.getY()), 2) + math.pow((z + self.LightObject.getZ()), 2))/3
                     NormalVector = np.subtract([x, y, z], [
                         self.ballObject.x, self.ballObject.y, self.ballObject.z])
 
                     NormalNormalized = NormalVector / \
                         np.linalg.norm(NormalVector)
 
-                    LightVector = np.subtract([x, y, z], [
-                        self.LightObject.x, self.LightObject.y, self.LightObject.z])
+                    LightVector = np.subtract([
+                        self.LightObject.x, self.LightObject.y, self.LightObject.z], [x, y, z])
 
                     LightNormalized = LightVector/np.linalg.norm(LightVector)
 
                     dot_product = np.dot(ObservatorVector, LightNormalized)
                     angle = np.arccos(dot_product)
-
-                    final = (Ia * Ka) + (fatt * Ip*Kd *
-                                         np.dot(NormalNormalized, LightNormalized)) + \
-                        (fatt*Ip*Ks*math.cos(angle)**n)
+                    background = (Ia * Ka)
+                    defiuzed = fatt * Ip*Kd * \
+                        np.dot(NormalNormalized, LightNormalized)
+                    speciular = (fatt*Ip*Ks*math.cos(angle)**n)
+                    final = background + defiuzed + speciular
                     final = final * 255 / 100
-                    velocity = ballBrighness - final
+                    velocity = final
                     if velocity < 0:
                         velocity = 0
                     if velocity > 255:

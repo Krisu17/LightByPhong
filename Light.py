@@ -8,7 +8,7 @@ class Light:
         self.y = y
         self.z = z
         self.power = power
-        self.step = 500
+        self.step = 30
 
     def moveLightToRight(self) -> None:
         self.x += self.step
@@ -33,6 +33,6 @@ class Light:
 
     def getY(self):
         return self.y
-    
+
     def getZ(self):
         return self.z
