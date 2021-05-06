@@ -15,25 +15,54 @@ class Widget(QWidget):
         self.ballObject = Ball(100, 100, 0, 50)  # x, y, z, r
         self.ballObject.setMaterialToMetal()
         self.LightObject = Light(440, 440, 400, 150)  # x, y, z, power
+        self.Ia = 60
+        self.Ka = 0.4
+        self.fatt = 0.8
 
         super().__init__()
-        nSlider = QSlider(Qt.Horizontal, self)
-        nSlider.setGeometry(10, 10, 100, 10)
-        nSlider.valueChanged[int].connect(self.changeN)
-        self.labelN = QLabel('N=0', self)
-        self.labelN.setGeometry(110, 10, 50, 10)
 
-        ksSlider = QSlider(Qt.Horizontal, self)
-        ksSlider.setGeometry(10, 20, 100, 10)
-        ksSlider.valueChanged[int].connect(self.changeKs)
-        self.labelKs = QLabel('Ks=0', self)
-        self.labelKs.setGeometry(110, 20, 50, 10)
+        if (len(sys.argv) > 1 and sys.argv[1] == "--debug"):
+            nSlider = QSlider(Qt.Horizontal, self)
+            nSlider.setGeometry(10, 10, 100, 10)
+            nSlider.valueChanged[int].connect(self.changeN)
+            self.labelN = QLabel('N=0', self)
+            self.labelN.setGeometry(110, 10, 50, 10)
 
-        kdSlider = QSlider(Qt.Horizontal, self)
-        kdSlider.setGeometry(10, 30, 100, 10)
-        kdSlider.valueChanged[int].connect(self.changeKd)
-        self.labelKd = QLabel('Kd=0', self)
-        self.labelKd.setGeometry(110, 30, 50, 10)
+            ksSlider = QSlider(Qt.Horizontal, self)
+            ksSlider.setGeometry(10, 20, 100, 10)
+            ksSlider.valueChanged[int].connect(self.changeKs)
+            self.labelKs = QLabel('Ks=0', self)
+            self.labelKs.setGeometry(110, 20, 50, 10)
+
+            kdSlider = QSlider(Qt.Horizontal, self)
+            kdSlider.setGeometry(10, 30, 100, 10)
+            kdSlider.valueChanged[int].connect(self.changeKd)
+            self.labelKd = QLabel('Kd=0', self)
+            self.labelKd.setGeometry(110, 30, 50, 10)
+
+            iaSlider = QSlider(Qt.Horizontal, self)
+            iaSlider.setGeometry(10, 160, 100, 10)
+            iaSlider.valueChanged[int].connect(self.changeIa)
+            self.labelIa = QLabel('Ia=60', self)
+            self.labelIa.setGeometry(110, 160, 50, 10)
+
+            kaSlider = QSlider(Qt.Horizontal, self)
+            kaSlider.setGeometry(10, 170, 100, 10)
+            kaSlider.valueChanged[int].connect(self.changeKa)
+            self.labelKa = QLabel('Ka=0.4', self)
+            self.labelKa.setGeometry(110, 170, 50, 10)
+
+            ipSlider = QSlider(Qt.Horizontal, self)
+            ipSlider.setGeometry(10, 180, 100, 10)
+            ipSlider.valueChanged[int].connect(self.changeIp)
+            self.labelIp = QLabel('Ip=150', self)
+            self.labelIp.setGeometry(110, 180, 50, 10)
+
+            fattSlider = QSlider(Qt.Horizontal, self)
+            fattSlider.setGeometry(10, 190, 100, 10)
+            fattSlider.valueChanged[int].connect(self.changeFatt)
+            self.labelFatt = QLabel('fatt=0.8', self)
+            self.labelFatt.setGeometry(110, 190, 50, 10)
 
     def changeN(self, value):
         self.ballObject.n = value
@@ -50,16 +79,36 @@ class Widget(QWidget):
         self.labelKd.setText("Kd=" + str(self.ballObject.Kd))
         self.update()
 
+    def changeIa(self, value):
+        self.Ia = value
+        self.labelIa.setText("Ia=" + str(self.Ia))
+        self.update()
+
+    def changeKa(self, value):
+        self.Ka = value/100
+        self.labelKa.setText("Ka=" + str(self.Ka))
+        self.update()
+
+    def changeIp(self, value):
+        self.LightObject.power = value + 100
+        self.labelIp.setText("Ip=" + str(self.LightObject.power))
+        self.update()
+    
+    def changeFatt(self, value):
+        self.fatt = value/100
+        self.labelFatt.setText("fatt=" + str(self.fatt))
+        self.update()
+
     def paintEvent(self, event):
         painter = QPainter(self)
         ballBrighness = self.ballObject.getBallBrighness()
         ObservatorVector = [0, 0, 1]
-        Ia = 60
+        Ia = self.Ia
         Ip = self.LightObject.power
-        Ka = 0.4
+        Ka = self.Ka
         Ks = self.ballObject.getKs()
         Kd = self.ballObject.getKd()
-        fatt = 0.8
+        fatt = self.fatt
         n = self.ballObject.getN()
         hue = self.ballObject.getHue()
         saturation = self.ballObject.getSaturation()
