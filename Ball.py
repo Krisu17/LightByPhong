@@ -15,36 +15,32 @@ class Ball:
         self.kdStep = 0.1
 
     def setMaterialToMetal(self) -> None:
-        self.Ks = 1
-        self.Kd = 0.5
-        self.n = 25000
-        self.hue = 271
-        self.saturation = 24
-        self.ballBrighness = 80
+        self.Ks = 0.92
+        self.Kd = 0.53
+        self.n = 100
+        self.hue = 25
+        self.saturation = 57*255/100
 
     def setMaterialToWool(self) -> None:
-        self.Ks = 0.25
-        self.Kd = 0.75
-        self.n = 10
-        self.hue = 297
-        self.saturation = 86
-        self.ballBrighness = 79
+        self.Ks = 0.15
+        self.Kd = 0.85
+        self.n = 100
+        self.hue = 180
+        self.saturation = 16*255/100
 
     def setMaterialToPlastic(self) -> None:
-        self.Ks = 0.15
-        self.Kd = 0.90
-        self.n = 250
-        self.hue = 112
-        self.saturation = 100
-        self.ballBrighness = 94
+        self.Ks = 0.71
+        self.Kd = 0.44
+        self.n = 900
+        self.hue = 0
+        self.saturation = 100*255/100
 
     def setMaterialToWood(self) -> None:
-        self.Ks = 0.91
+        self.Ks = 0.1
         self.Kd = 0.80
-        self.n = 20
-        self.hue = 20
-        self.saturation = 52
-        self.ballBrighness = 60
+        self.n = 400
+        self.hue = 21
+        self.saturation = 49*255/100
 
     def getZ(self, x, y,) -> float:
         return math.sqrt(self.rSq - (x - self.x)**2-(y-self.y)**2) + self.z

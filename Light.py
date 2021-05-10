@@ -8,7 +8,7 @@ class Light:
         self.y = y
         self.z = z
         self.power = power
-        self.step = 30
+        self.step = 120
 
     def moveLightToRight(self) -> None:
         self.x += self.step

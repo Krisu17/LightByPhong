@@ -11,13 +11,13 @@ from Ball import *
 
 class Widget(QWidget):
     def __init__(self):
-        self.screen_size = (200, 200)
-        self.ballObject = Ball(100, 100, 0, 50)  # x, y, z, r
+        self.screen_size = (800, 800)
+        self.ballObject = Ball(400, 400, 0, 200)  # x, y, z, r
         self.ballObject.setMaterialToMetal()
-        self.LightObject = Light(120, 120, 400, 150)  # x, y, z, power
-        self.Ia = 60
-        self.Ka = 0
-        self.fatt = 0.8
+        self.LightObject = Light(400, 400, 400, 83)  # x, y, z, power
+        self.Ia = 87
+        self.Ka = 0.39
+        self.fatt = 0.63
 
         super().__init__()
 
@@ -66,7 +66,7 @@ class Widget(QWidget):
 
     def changeN(self, value):
         self.ballObject.n = value * 100
-        self.labelN.setText("N=" + str(self.ballObject.n*100))
+        self.labelN.setText("N=" + str(self.ballObject.n))
         self.update()
 
     def changeKs(self, value):
@@ -90,7 +90,7 @@ class Widget(QWidget):
         self.update()
 
     def changeIp(self, value):
-        self.LightObject.power = value + 100
+        self.LightObject.power = value
         self.labelIp.setText("Ip=" + str(self.LightObject.power))
         self.update()
 
@@ -101,7 +101,6 @@ class Widget(QWidget):
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        ballBrighness = self.ballObject.getBallBrighness()
         ObservatorVector = [0, 0, -1]
         Ia = self.Ia
         Ip = self.LightObject.power
@@ -116,8 +115,8 @@ class Widget(QWidget):
         for x in range(self.screen_size[0]):
             for y in range(self.screen_size[1]):
                 if not self.ballObject.isInBall(x, y):
-                    # painter.setPen(QPen(Qt.black,  1, Qt.SolidLine))
-                    # painter.drawPoint(x, y)
+                    painter.setPen(QPen(Qt.black,  1, Qt.SolidLine))
+                    painter.drawPoint(x, y)
                     pass
                 else:
                     z = self.ballObject.getZ(x, y)
@@ -211,6 +210,6 @@ class Widget(QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = Widget()
-    ex.resize(200, 200)
+    ex.resize(800, 800)
     ex.show()
     sys.exit(app.exec_())
